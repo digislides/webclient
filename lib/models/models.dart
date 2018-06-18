@@ -1,49 +1,85 @@
 import 'dart:math';
 import 'package:bson_objectid/bson_objectid.dart';
 
+import 'package:nuts/nuts.dart';
+
 class Player {
   String id;
 
   String name;
 }
 
+class ReactivePage {
+  final name = StoredReactive<String>();
+  final width = StoredReactive<int>();
+  final height = StoredReactive<int>();
+  final color = StoredReactive<String>();
+  final image = StoredReactive<String>();
+  final fit = StoredReactive<ImageFit>();
+  final duration = StoredReactive<int>();
+  final transition = StoredReactive<int>();
+  final transitionDuration = StoredReactive<num>();
+  final items = IfList<PageItem>();
+}
+
 class Page {
   String id;
 
-  String name;
+  final ReactivePage reactive = ReactivePage();
 
-  int width;
+  String get name => reactive.name.get;
+  set name(String value) => reactive.name.set = value;
 
-  int height;
+  int get width => reactive.width.get;
+  set width(int value) => reactive.width.set = value;
 
-  String color;
+  int get height => reactive.height.get;
+  set height(int value) => reactive.height.set = value;
 
-  String image;
+  String get color => reactive.color.get;
+  set color(String value) => reactive.color.set = value;
 
-  ImageFit fit;
+  String get image => reactive.image.get;
+  set image(String image) => reactive.image.set = image;
 
-  int duration;
+  ImageFit get fit => reactive.fit.get;
+  set fit(ImageFit value) => reactive.fit.set = value;
 
-  int transition;
+  int get duration => reactive.duration.get;
+  set duration(int value) => reactive.duration.set = value;
 
-  num transitionDuration;
+  int get transition => reactive.transition.get;
+  set transition(int value) => reactive.transition.set = value;
 
-  List<PageItem> items;
+  num get transitionDuration => reactive.transitionDuration.get;
+  set transitionDuration(num value) => reactive.transitionDuration.set = value;
 
-  Page(
-      {this.id,
-      this.name: 'Page',
-      this.width: 0,
-      this.height: 0,
-      this.color: 'white',
-      this.image,
-      this.duration: 5,
-      this.transition: 0,
-      this.transitionDuration: 0,
-      this.items,
-      this.fit: ImageFit.cover}) {
+  IfList<PageItem> get items => reactive.items;
+
+  Page({
+    this.id,
+    String name: 'Page',
+    int width: 0,
+    int height: 0,
+    String color: 'white',
+    String image,
+    ImageFit fit: ImageFit.cover,
+    int duration: 5,
+    int transition: 0,
+    num transitionDuration: 0,
+    Iterable<PageItem> items: const <PageItem>[],
+  }) {
     id ??= new ObjectId().toHexString();
-    items ??= new List<PageItem>();
+    this.name = name;
+    this.width = width;
+    this.height = height;
+    this.color = color;
+    this.image = image;
+    this.fit = fit;
+    this.duration = duration;
+    this.transition = transition;
+    this.transitionDuration = transitionDuration;
+    this.items.addAll(items);
   }
 
   Page clone() {
@@ -68,7 +104,7 @@ class Page {
     duration = map['duration'] ?? 0;
     // TODO transition
     // TODO transitionDuration
-    items = ((map['items'] ?? <Map>[]) as List)
+    items.assignAll(((map['items'] ?? <Map>[]) as List)
         .map((m) {
           if (m['type'] is int) {
             return createItem(m['type'], m);
@@ -77,7 +113,7 @@ class Page {
         })
         .where((v) => v is PageItem)
         .toList()
-        .cast<PageItem>();
+        .cast<PageItem>());
   }
 
   Map get toMap => {

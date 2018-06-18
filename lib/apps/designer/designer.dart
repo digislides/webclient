@@ -2,9 +2,13 @@ import 'dart:async';
 import 'package:nuts/nuts.dart';
 import 'package:webclient/models/models.dart';
 
+class RxProperty {
+  const RxProperty();
+}
+
 Program program;
 
-final selectedPageBinding = new Bindable<Page>();
+final selectedPageBinding = new Reactive<Page>();
 
 Page get selectedPage => selectedPageBinding.get;
 
@@ -22,7 +26,8 @@ class TitleBar implements Component {
   View makeView() {
     return Box(class_: 'titlebar', children: [
       HBox(
-          class_: 'title-holder', children: [TextField(name, class_: 'title')]),
+          class_: 'title-holder',
+          children: [TextField(text: name, class_: 'title')]),
     ]);
   }
 }
@@ -33,7 +38,7 @@ class SlideItem implements Component {
   bool get isSelected => page == selectedPage;
 
   Stream<bool> get _selectionChange =>
-      selectedPageBinding.onChanges.map((Change<Page> c) => c.neu == page);
+      selectedPageBinding.newValues.map((p) => p == page);
 
   @override
   final String key;
@@ -44,8 +49,10 @@ class SlideItem implements Component {
   View makeView() {
     HBox ret;
     ret = HBox(class_: 'slidelist-item', children: [
-      TextField(page.name,
-          class_: 'slidelist-label', onClick: () => selectedPage = page)
+      TextField(
+          text: page.reactive.name,
+          class_: 'slidelist-label',
+          onClick: () => selectedPage = page)
     ])
       ..bindClass('selected', _selectionChange)
       ..classes.addIf(isSelected, 'selected');
@@ -74,13 +81,26 @@ class Designer implements Component {
 
   @override
   View makeView() {
-    selectedPageBinding.onChanges.listen((e) {
-      print(e.neu.name);
-    });
-    return Box(children: [
+    return HBox(class_: 'app', children: [
       Box(
           class_: 'sidebar',
-          children: [TitleBar(program.name), SlideList(program.pages)])
+          children: [TitleBar(program.name), SlideList(program.pages)]),
+      Box(class_: 'content', children: [
+        VariableView<Page>(
+            selectedPage, selectedPageBinding.newValues, (p) => Stage(p))
+      ]),
     ]);
   }
+}
+
+class Stage implements Component {
+  @override
+  String key;
+
+  final Page page;
+
+  Stage(this.page, {this.key});
+
+  @override
+  View makeView() => HBox(child: TextField(text: page.name), class_: 'stage');
 }

@@ -48,9 +48,16 @@ html, body {
     box-sizing: border-box;
 }
 
+.content {
+    height: 100%;
+    flex: 1;
+}
+
 .slidelist {
     height: calc(100% - 50px);
     overflow: auto;
+    border-right: 1px solid #cecece;
+    flex: 1;
 }
 
 .slidelist-item {
