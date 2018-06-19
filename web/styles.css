@@ -58,6 +58,7 @@ html, body {
     overflow: auto;
     border-right: 1px solid #cecece;
     flex: 1;
+    background-color: #f1f1f1;
 }
 
 .slidelist-item {
@@ -70,10 +71,11 @@ html, body {
 .slidelist-item.selected {
     border-left: 5px solid #283593;
     font-weight: bold;
+    color: #283593;
 }
 
 .slidelist-item:hover {
-    background-color: #cecece;
+    background-color: #e0e0e0;
 }
 
 .slidelist-label {
@@ -84,3 +86,4 @@ html, body {
 
 .slidelist-label:active {
 }
+

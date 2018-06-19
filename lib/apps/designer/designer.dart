@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:nuts/nuts.dart';
 import 'package:webclient/models/models.dart';
+import 'package:webclient/components/stage/stage.dart';
 
 class RxProperty {
   const RxProperty();
@@ -38,7 +39,7 @@ class SlideItem implements Component {
   bool get isSelected => page == selectedPage;
 
   Stream<bool> get _selectionChange =>
-      selectedPageBinding.newValues.map((p) => p == page);
+      selectedPageBinding.values.map((p) => p == page);
 
   @override
   final String key;
@@ -54,7 +55,7 @@ class SlideItem implements Component {
           class_: 'slidelist-label',
           onClick: () => selectedPage = page)
     ])
-      ..bindClass('selected', _selectionChange)
+      ..classes.bindBool('selected', _selectionChange)
       ..classes.addIf(isSelected, 'selected');
     return ret;
   }
@@ -87,20 +88,8 @@ class Designer implements Component {
           children: [TitleBar(program.name), SlideList(program.pages)]),
       Box(class_: 'content', children: [
         VariableView<Page>(
-            selectedPage, selectedPageBinding.newValues, (p) => Stage(p))
+            selectedPage, selectedPageBinding.values, (p) => Stage(p))
       ]),
     ]);
   }
-}
-
-class Stage implements Component {
-  @override
-  String key;
-
-  final Page page;
-
-  Stage(this.page, {this.key});
-
-  @override
-  View makeView() => HBox(child: TextField(text: page.name), class_: 'stage');
 }

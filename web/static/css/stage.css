@@ -1,0 +1,37 @@
+.stage-viewport {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    user-select: none;
+    background-color: #f1f1f1;
+    position: relative;
+}
+
+.stage-canvas {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    user-select: none;
+}
+
+.stage-canvas:focus {
+    outline: none;
+}
+
+.stage {
+    position: relative;
+    left: 0%;
+    top: 0%;
+    margin-left: 150px;
+    margin-top: 150px;
+    user-select: none;
+}
+
+.stage .item {
+    position: absolute;
+    padding: 0px;
+    margin: 0px;
+    font-family: inherit;
+    white-space: pre-line;
+    overflow: hidden;
+}

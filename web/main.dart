@@ -5,12 +5,17 @@ import 'package:webclient/apps/designer/designer.dart';
 import 'package:webclient/models/models.dart';
 
 void main() {
-  program = new Program(id: '41341234', name: 'Medis', pages: [
-    Page(id: '1', name: 'Page1'),
-    Page(id: '2', name: 'Page2'),
-    Page(id: '3', name: 'Page3')
-  ]);
-  if(program.pages.length != 0) selectedPage = program.pages.first;
+  program = new Program(
+      id: '41341234',
+      name: 'Medis',
+      width: 150,
+      height: 150,
+      pages: [
+        Page(id: '1', name: 'Page1', width: 150, height: 150, color: 'red'),
+        Page(id: '2', name: 'Page2', width: 150, height: 150, color: 'blue'),
+        Page(id: '3', name: 'Page3', width: 150, height: 150, color: 'green')
+      ]);
+  if (program.pages.length != 0) selectedPage = program.pages.first;
   Element e = defaultRenderers.render(Designer());
   document.body.children = [e];
 }
