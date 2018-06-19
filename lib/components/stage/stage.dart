@@ -15,16 +15,14 @@ class Stage implements Component {
   final moving = StoredReactive<bool>(initial: false);
 
   Stream<Size> get _canvasWidths =>
-      page.reactive.width.values.map((int v) => FixedSize(v + 300));
+      page.rx.width.map((int v) => FixedSize(v + 300));
 
   Stream<Size> get _canvasHeights =>
-      page.reactive.height.values.map((int v) => FixedSize(v + 300));
+      page.rx.height.map((int v) => FixedSize(v + 300));
 
-  Stream<Size> get _widths =>
-      page.reactive.width.values.map((int v) => FixedSize(v));
+  Stream<Size> get _widths => page.rx.width.map((int v) => FixedSize(v));
 
-  Stream<Size> get _heights =>
-      page.reactive.height.values.map((int v) => FixedSize(v));
+  Stream<Size> get _heights => page.rx.height.map((int v) => FixedSize(v));
 
   @override
   View makeView() => Box(
@@ -37,8 +35,22 @@ class Stage implements Component {
             class_: 'stage',
             width: _widths,
             height: _heights,
-            backgroundColor: page.reactive.color,
+            backgroundColor: page.rx.color,
+            children: RxChildList(page.items, (p) => StageItem(p)),
           ),
         ),
       );
+}
+
+class StageItem implements Component {
+  String key;
+  final PageItem item;
+
+  StageItem(this.item);
+
+  @override
+  View makeView() => Box(
+      class_: 'item',
+      width: item.rx.width.map((w) => FixedSize(w)),
+      height: item.rx.height.map((w) => FixedSize(w)));
 }

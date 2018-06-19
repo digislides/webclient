@@ -25,36 +25,36 @@ class ReactivePage {
 class Page {
   String id;
 
-  final ReactivePage reactive = ReactivePage();
+  final ReactivePage rx = ReactivePage();
 
-  String get name => reactive.name.get;
-  set name(String value) => reactive.name.set = value;
+  String get name => rx.name.value;
+  set name(String value) => rx.name.value = value;
 
-  int get width => reactive.width.get;
-  set width(int value) => reactive.width.set = value;
+  int get width => rx.width.value;
+  set width(int value) => rx.width.value = value;
 
-  int get height => reactive.height.get;
-  set height(int value) => reactive.height.set = value;
+  int get height => rx.height.value;
+  set height(int value) => rx.height.value = value;
 
-  String get color => reactive.color.get;
-  set color(String value) => reactive.color.set = value;
+  String get color => rx.color.value;
+  set color(String value) => rx.color.value = value;
 
-  String get image => reactive.image.get;
-  set image(String image) => reactive.image.set = image;
+  String get image => rx.image.value;
+  set image(String image) => rx.image.value = image;
 
-  ImageFit get fit => reactive.fit.get;
-  set fit(ImageFit value) => reactive.fit.set = value;
+  ImageFit get fit => rx.fit.value;
+  set fit(ImageFit value) => rx.fit.value = value;
 
-  int get duration => reactive.duration.get;
-  set duration(int value) => reactive.duration.set = value;
+  int get duration => rx.duration.value;
+  set duration(int value) => rx.duration.value = value;
 
-  int get transition => reactive.transition.get;
-  set transition(int value) => reactive.transition.set = value;
+  int get transition => rx.transition.value;
+  set transition(int value) => rx.transition.value = value;
 
-  num get transitionDuration => reactive.transitionDuration.get;
-  set transitionDuration(num value) => reactive.transitionDuration.set = value;
+  num get transitionDuration => rx.transitionDuration.value;
+  set transitionDuration(num value) => rx.transitionDuration.value = value;
 
-  IfList<PageItem> get items => reactive.items;
+  IfList<PageItem> get items => rx.items;
 
   Page({
     this.id,
@@ -233,8 +233,22 @@ class Program {
 
 enum PageItemType { text, image, video }
 
+abstract class RxPageItem {
+  Reactive<String> get name;
+
+  Reactive<int> get width;
+
+  Reactive<int> get height;
+
+  Reactive<int> get left;
+
+  Reactive<int> get top;
+}
+
 abstract class PageItem {
   String get id;
+
+  RxPageItem get rx;
 
   PageItemType get type;
 
@@ -258,7 +272,34 @@ abstract class PageItem {
 }
 
 abstract class PageItemMixin implements PageItem {
+  String get name => rx.name.value;
+  set name(String value) => rx.name.value = value;
+
+  int get width => rx.width.value;
+  set width(int value) => rx.width.value = value;
+
+  int get height => rx.height.value;
+  set height(int value) => rx.height.value = value;
+
+  int get left => rx.left.value;
+  set left(int value) => rx.left.value = value;
+
+  int get top => rx.top.value;
+  set top(int value) => rx.top.value = value;
+
   Rectangle<int> get rect => new Rectangle(left, top, width, height);
+}
+
+abstract class RxPageItemMixin implements RxPageItem {
+  final name = Reactive<String>();
+
+  final width = Reactive<int>();
+
+  final height = Reactive<int>();
+
+  final left = Reactive<int>();
+
+  final top = Reactive<int>();
 }
 
 enum Align { left, center, right }
@@ -319,50 +360,63 @@ class FontProperties {
 
 PageItem createItem(int type, Map v) {
   if (type == PageItemType.text.index) return new TextItem()..fromMap(v);
-  if (type == PageItemType.image.index) return new ImageItem()..fromMap(v);
-  if (type == PageItemType.video.index) return new VideoItem()..fromMap(v);
+  // TODO if (type == PageItemType.image.index) return new ImageItem()..fromMap(v);
+  // TODO if (type == PageItemType.video.index) return new VideoItem()..fromMap(v);
   return null;
+}
+
+abstract class RxTextualItem {
+  // TODO
+}
+
+abstract class TextualItem {
+  // TODO
+}
+
+class RxTextItem extends Object with RxPageItemMixin implements RxPageItem {
+  final text = StoredReactive<String>();
 }
 
 class TextItem extends Object with PageItemMixin implements PageItem {
   String id;
 
-  String name;
+  final RxTextItem rx = RxTextItem();
 
-  int width;
+  String get text => rx.text.value;
+  set text(String value) => rx.text.value = value;
 
-  int height;
+  // TODO FontProperties font;
 
-  int left;
-
-  int top;
-
-  String text;
-
-  FontProperties font;
-
-  TextItem(
-      {this.id,
-      this.name: 'Text',
-      this.width: 0,
-      this.height: 0,
-      this.left: 0,
-      this.top: 0,
-      this.text: 'Text',
-      this.font}) {
+  TextItem({
+    this.id,
+    String name: 'Text',
+    int width: 0,
+    int height: 0,
+    int left: 0,
+    int top: 0,
+    String text: 'Text',
+    /* TODO this.font */
+  }) {
     id ??= new ObjectId().toHexString();
-    font ??= new FontProperties();
+    this.name = name;
+    this.width = width;
+    this.height = height;
+    this.left = left;
+    this.top = top;
+    this.text = text;
+    // TODO font ??= new FontProperties();
   }
 
   TextItem clone() {
     return new TextItem(
-        name: name,
-        width: width,
-        height: height,
-        left: left,
-        top: top,
-        text: text,
-        font: font.clone());
+      name: name,
+      width: width,
+      height: height,
+      left: left,
+      top: top,
+      text: text,
+      /* TODO font: font.clone()*/
+    );
   }
 
   @override
@@ -375,7 +429,7 @@ class TextItem extends Object with PageItemMixin implements PageItem {
         'left': left,
         'top': top,
         'text': text,
-        'font': font.toMap,
+        // TODO 'font': font.toMap,
       };
 
   @override
@@ -387,7 +441,7 @@ class TextItem extends Object with PageItemMixin implements PageItem {
     left = map['left'] ?? 0;
     top = map['top'] ?? 0;
     text = map['text'] ?? '';
-    font = new FontProperties()..fromMap(map['font'] ?? {});
+    // TODO font = new FontProperties()..fromMap(map['font'] ?? {});
   }
 
   @override
@@ -419,6 +473,7 @@ class ImageFit {
   }
 }
 
+/*
 class ImageItem extends Object with PageItemMixin implements PageItem {
   String id;
 
@@ -549,3 +604,4 @@ class VideoItem extends Object with PageItemMixin implements PageItem {
   @override
   final PageItemType type = PageItemType.video;
 }
+*/

@@ -11,11 +11,19 @@ void main() {
       width: 150,
       height: 150,
       pages: [
-        Page(id: '1', name: 'Page1', width: 150, height: 150, color: 'red'),
+        Page(
+            id: '1',
+            name: 'Page1',
+            width: 150,
+            height: 150,
+            color: 'red',
+            items: [
+              TextItem(id: '1', width: 100, height: 100, left: 25, top: 25)
+            ]),
         Page(id: '2', name: 'Page2', width: 150, height: 150, color: 'blue'),
         Page(id: '3', name: 'Page3', width: 150, height: 150, color: 'green')
       ]);
-  if (program.pages.length != 0) selectedPage = program.pages.first;
+  if (program.pages.length != 0) selectedPage.value = program.pages.first;
   Element e = defaultRenderers.render(Designer());
   document.body.children = [e];
 }

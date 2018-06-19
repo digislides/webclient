@@ -53,6 +53,52 @@ html, body {
     flex: 1;
 }
 
+.rsidebar {
+    width: 200px;
+    height: 100%;
+    overflow: hidden;
+    background-color: #f1f1f1;
+}
+
+.rsidebar-tabs {
+    height: 32px;
+    background-color: #283593;
+    color: white;
+}
+
+.rsidebar-tab {
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    line-height: 32px;
+    cursor: pointer;
+    user-select: none;
+    color: lightgrey;
+    transition: color 0.5s;
+}
+
+.rsidebar-tab:hover {
+    color: white;
+}
+
+.rsidebar-tab:active {
+    background-color: #0000003d;
+}
+
+.rsidebar-tab.selected {
+    cursor: default;
+    background-color: #0000003d;
+    box-shadow: inset 0px 1px 1px 2px #0000004f;
+    color: white;
+}
+
+.rsidebar-content {
+    border-left: 1px solid #cecece;
+    flex: 1;
+}
+
 .slidelist {
     height: calc(100% - 50px);
     overflow: auto;
