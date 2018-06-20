@@ -20,9 +20,11 @@ class Stage implements Component {
   Stream<Distance> get _canvasHeights =>
       page.rx.height.map((int v) => FixedDistance(v + 300));
 
-  Stream<Distance> get _widths => page.rx.width.map((int v) => FixedDistance(v));
+  Stream<Distance> get _widths =>
+      page.rx.width.map((int v) => FixedDistance(v));
 
-  Stream<Distance> get _heights => page.rx.height.map((int v) => FixedDistance(v));
+  Stream<Distance> get _heights =>
+      page.rx.height.map((int v) => FixedDistance(v));
 
   @override
   View makeView() => Box(
@@ -49,8 +51,19 @@ class StageItem implements Component {
   StageItem(this.item);
 
   @override
-  View makeView() => Box(
-      class_: 'stage-item',
-      width: item.rx.width.map((w) => FixedDistance(w)),
-      height: item.rx.height.map((w) => FixedDistance(w)));
+  View makeView() {
+    if (item is TextItem) {
+      TextItem item = this.item;
+      return TextField(
+          class_: 'stage-item',
+          text: item.rx.text,
+          width: item.rx.width.map((w) => FixedDistance(w)),
+          height: item.rx.height.map((w) => FixedDistance(w)),
+          left: item.rx.left.map((w) => FixedDistance(w)),
+          top: item.rx.top.map((w) => FixedDistance(w)),
+          backgroundColor: item.rx.bgColor,
+          color: item.font.rx.color);
+    }
+    throw new Exception('Unknown item!');
+  }
 }

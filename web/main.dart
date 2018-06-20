@@ -18,7 +18,13 @@ void main() {
             height: 150,
             color: 'red',
             items: [
-              TextItem(id: '1', width: 100, height: 100, left: 25, top: 25)
+              TextItem(
+                  id: '1',
+                  width: 100,
+                  height: 100,
+                  left: 25,
+                  top: 25,
+                  bgColor: 'blue')
             ]),
         Page(id: '2', name: 'Page2', width: 150, height: 150, color: 'blue'),
         Page(id: '3', name: 'Page3', width: 150, height: 150, color: 'green')

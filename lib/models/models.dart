@@ -243,6 +243,8 @@ abstract class RxPageItem {
   Reactive<int> get left;
 
   Reactive<int> get top;
+
+  Reactive<String> get bgColor;
 }
 
 abstract class PageItem {
@@ -261,6 +263,8 @@ abstract class PageItem {
   int left;
 
   int top;
+
+  String bgColor;
 
   PageItem clone();
 
@@ -287,6 +291,9 @@ abstract class PageItemMixin implements PageItem {
   int get top => rx.top.value;
   set top(int value) => rx.top.value = value;
 
+  String get bgColor => rx.bgColor.value;
+  set bgColor(String value) => rx.bgColor.value = value;
+
   Rectangle<int> get rect => new Rectangle(left, top, width, height);
 }
 
@@ -300,38 +307,80 @@ abstract class RxPageItemMixin implements RxPageItem {
   final left = Reactive<int>();
 
   final top = Reactive<int>();
+
+  final bgColor = StoredReactive<String>();
 }
 
 enum Align { left, center, right }
 
+PageItem createItem(int type, Map v) {
+  if (type == PageItemType.text.index) return new TextItem()..fromMap(v);
+  // TODO if (type == PageItemType.image.index) return new ImageItem()..fromMap(v);
+  // TODO if (type == PageItemType.video.index) return new VideoItem()..fromMap(v);
+  return null;
+}
+
+class RxFontProperties {
+  final size = StoredReactive<int>();
+
+  final align = StoredReactive<Align>();
+
+  final family = StoredReactive<String>();
+
+  final color = StoredReactive<String>();
+
+  final bold = StoredReactive<bool>();
+
+  final italic = StoredReactive<bool>();
+
+  final underline = StoredReactive<bool>();
+}
+
 class FontProperties {
+  final rx = RxFontProperties();
+
   /// Size of the font
-  int size;
+  int get size => rx.size.value;
+  set size(int value) => rx.size.value = value;
 
-  Align align;
+  Align get align => rx.align.value;
+  set align(Align value) => rx.align.value;
 
-  String family;
+  String get family => rx.family.value;
+  set family(String value) => rx.family.value = value;
 
-  String color;
+  String get color => rx.color.value;
+  set color(String value) => rx.color.value = value;
 
-  bool bold;
+  bool get bold => rx.bold.value;
+  set bold(bool value) => rx.bold.value = value;
 
-  bool italic;
+  bool get italic => rx.italic.value;
+  set italic(bool value) => rx.italic.value = value;
 
-  bool underline;
+  bool get underline => rx.underline.value;
+  set underline(bool value) => rx.underline.value = value;
 
   // bool lineThrough;
 
   FontProperties({
-    this.size: 16,
-    this.align: Align.left,
-    this.family,
-    this.color: 'black',
-    this.bold: false,
-    this.italic: false,
-    this.underline: false,
+    int size: 16,
+    Align align: Align.left,
+    String family,
+    String color: 'black',
+    bool bold: false,
+    bool italic: false,
+    bool underline: false,
     // this.lineThrough: false
-  });
+  }) {
+    this.size = size;
+    this.align = align;
+    this.family = family;
+    this.color = color;
+    this.bold = bold;
+    this.italic = italic;
+    this.underline = underline;
+  }
 
   FontProperties clone() => new FontProperties()..fromMap(toMap);
 
@@ -358,21 +407,6 @@ class FontProperties {
   }
 }
 
-PageItem createItem(int type, Map v) {
-  if (type == PageItemType.text.index) return new TextItem()..fromMap(v);
-  // TODO if (type == PageItemType.image.index) return new ImageItem()..fromMap(v);
-  // TODO if (type == PageItemType.video.index) return new VideoItem()..fromMap(v);
-  return null;
-}
-
-abstract class RxTextualItem {
-  // TODO
-}
-
-abstract class TextualItem {
-  // TODO
-}
-
 class RxTextItem extends Object with RxPageItemMixin implements RxPageItem {
   final text = StoredReactive<String>();
 }
@@ -385,18 +419,19 @@ class TextItem extends Object with PageItemMixin implements PageItem {
   String get text => rx.text.value;
   set text(String value) => rx.text.value = value;
 
-  // TODO FontProperties font;
+  final FontProperties font;
 
-  TextItem({
-    this.id,
-    String name: 'Text',
-    int width: 0,
-    int height: 0,
-    int left: 0,
-    int top: 0,
-    String text: 'Text',
-    /* TODO this.font */
-  }) {
+  TextItem(
+      {this.id,
+      String name: 'Text',
+      int width: 0,
+      int height: 0,
+      int left: 0,
+      int top: 0,
+      String bgColor: 'transparent',
+      String text: 'Text',
+      FontProperties font})
+      : font = font ?? FontProperties() {
     id ??= new ObjectId().toHexString();
     this.name = name;
     this.width = width;
@@ -404,7 +439,7 @@ class TextItem extends Object with PageItemMixin implements PageItem {
     this.left = left;
     this.top = top;
     this.text = text;
-    // TODO font ??= new FontProperties();
+    this.bgColor = bgColor;
   }
 
   TextItem clone() {
