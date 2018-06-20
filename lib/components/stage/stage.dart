@@ -14,15 +14,15 @@ class Stage implements Component {
 
   final moving = StoredReactive<bool>(initial: false);
 
-  Stream<Size> get _canvasWidths =>
-      page.rx.width.map((int v) => FixedSize(v + 300));
+  Stream<Distance> get _canvasWidths =>
+      page.rx.width.map((int v) => FixedDistance(v + 300));
 
-  Stream<Size> get _canvasHeights =>
-      page.rx.height.map((int v) => FixedSize(v + 300));
+  Stream<Distance> get _canvasHeights =>
+      page.rx.height.map((int v) => FixedDistance(v + 300));
 
-  Stream<Size> get _widths => page.rx.width.map((int v) => FixedSize(v));
+  Stream<Distance> get _widths => page.rx.width.map((int v) => FixedDistance(v));
 
-  Stream<Size> get _heights => page.rx.height.map((int v) => FixedSize(v));
+  Stream<Distance> get _heights => page.rx.height.map((int v) => FixedDistance(v));
 
   @override
   View makeView() => Box(
@@ -50,7 +50,7 @@ class StageItem implements Component {
 
   @override
   View makeView() => Box(
-      class_: 'item',
-      width: item.rx.width.map((w) => FixedSize(w)),
-      height: item.rx.height.map((w) => FixedSize(w)));
+      class_: 'stage-item',
+      width: item.rx.width.map((w) => FixedDistance(w)),
+      height: item.rx.height.map((w) => FixedDistance(w)));
 }

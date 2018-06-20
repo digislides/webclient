@@ -28,7 +28,7 @@
     border: 1px solid black;
 }
 
-.stage .item {
+.stage-item {
     position: absolute;
     padding: 0px;
     margin: 0px;
