@@ -40,8 +40,8 @@ class Stage implements Component {
             width: _widths,
             height: _heights,
             backgroundColor: page.rx.color,
-            children: RxChildList(
-                page.items, (p) => StageItem(p)..onSelect.emitOther(onSelect)),
+            children: RxChildList(page.items,
+                (p) => StageItem(p)..onSelect.pipeToOther(onSelect)),
           ),
         ),
       );

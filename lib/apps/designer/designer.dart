@@ -45,7 +45,7 @@ class Designer implements Component {
       ]),
       Box(class_: 'content', children: [
         VariableView<Page>(selectedPage.value, selectedPage.values,
-            (p) => Stage(p)..onSelect.bindRx(selectedItem)),
+            (p) => Stage(p)..onSelect.pipeToRx(selectedItem)),
       ]),
       RightSidebar(
           VariableView<PageItem>(selectedItem.value, selectedItem.values, (i) {

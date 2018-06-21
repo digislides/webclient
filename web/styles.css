@@ -121,7 +121,7 @@ html, body {
 }
 
 .slidelist-item:hover {
-    background-color: #e0e0e0;
+    background-color: #d2d7ff;
 }
 
 .slidelist-label {
@@ -133,3 +133,119 @@ html, body {
 .slidelist-label:active {
 }
 
+.ech-field {
+    padding: 2px 5px;
+}
+
+.ech-doublefield {
+    padding: 2px 5px;
+}
+
+.ech-doublefield > .textfield {
+    margin: 0px 10px;
+}
+
+.ech-iconedit {
+    border-radius: 4px;
+    border: 1px solid #00000029;
+    padding: 3px 5px;
+    outline: none;
+    transition: border-color 0.5s, box-shadow 0.5s;
+    background-color: white;
+}
+
+.ech-iconedit:hover {
+    box-shadow: inset 1px 2px 2px 0px #0000001f;
+}
+
+.ech-iconedit:focus-within {
+    border-color: #3F51B5;
+    box-shadow: inset 1px 2px 2px 0px #0000001f;
+}
+
+.ech-iconedit .textfield {
+    width: 16px;
+    text-align: center;
+    color: #cecece;
+}
+
+.ech-iconedit input {
+    width: 0;
+    padding: 0px;
+    margin: 0px;
+    background: transparent;
+    border: none;
+    outline: none;
+    flex: 1;
+    text-align: right;
+}
+
+.ech-coloredit {
+    border-radius: 4px 4px 0px 0px;
+    border: 1px solid #00000029;
+    padding: 3px 5px;
+    outline: none;
+    transition: border-color 0.5s, box-shadow 0.5s;
+    background-color: white;
+}
+
+.ech-coloredit .ech-label {
+    width: 16px;
+    text-align: center;
+    color: #cecece;
+}
+
+.ech-color-display {
+    width: 8px;
+    height: 8px;
+    margin: 0px 4px 0px 8px;
+    border: 1px solid black;
+}
+
+.ech-coloredit input {
+    width: 0;
+    padding: 0px;
+    margin: 0px;
+    background: transparent;
+    border: none;
+    outline: none;
+    flex: 1;
+}
+
+.ech-coloredit .ech-action {
+    width: 16px;
+    text-align: center;
+    color: #8594ff;
+    margin: 2px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.ech-coloredit .ech-action:hover {
+    color: #283593;
+}
+
+.ech-coloredit .ech-action:active {
+}
+
+.ech-coloredit .ech-action.selected {
+    color: #283593;
+}
+
+.ech-colors-list {
+    height: 100px;
+    display: block;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #d1d1d1;
+}
+
+.ech-colors-list-item {
+    padding: 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.ech-colors-list-item:hover {
+    background-color: #d2d7ff;
+}

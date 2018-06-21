@@ -407,11 +407,17 @@ class FontProperties {
   }
 }
 
+abstract class TextualItem implements PageItem {
+  FontProperties get font;
+}
+
 class RxTextItem extends Object with RxPageItemMixin implements RxPageItem {
   final text = StoredReactive<String>();
 }
 
-class TextItem extends Object with PageItemMixin implements PageItem {
+class TextItem extends Object
+    with PageItemMixin
+    implements PageItem, TextualItem {
   String id;
 
   final RxTextItem rx = RxTextItem();
