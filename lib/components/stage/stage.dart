@@ -8,6 +8,8 @@ class Stage implements Component {
 
   final Page page;
 
+  final onSelect = StreamBackedEmitter<PageItem>();
+
   Stage(this.page, {this.key});
 
   final resizing = StoredReactive<bool>(initial: false);
@@ -38,7 +40,8 @@ class Stage implements Component {
             width: _widths,
             height: _heights,
             backgroundColor: page.rx.color,
-            children: RxChildList(page.items, (p) => StageItem(p)),
+            children: RxChildList(
+                page.items, (p) => StageItem(p)..onSelect.emitOther(onSelect)),
           ),
         ),
       );
@@ -48,7 +51,11 @@ class StageItem implements Component {
   String key;
   final PageItem item;
 
-  StageItem(this.item);
+  final onSelect = StreamBackedEmitter<PageItem>();
+
+  StageItem(this.item, {onClick}) {
+    if (onClick != null) this.onSelect.on(onClick);
+  }
 
   @override
   View makeView() {
@@ -62,7 +69,10 @@ class StageItem implements Component {
           left: item.rx.left.map((w) => FixedDistance(w)),
           top: item.rx.top.map((w) => FixedDistance(w)),
           backgroundColor: item.rx.bgColor,
-          color: item.font.rx.color);
+          color: item.font.rx.color)
+        ..onClick.on((_) {
+          onSelect.emit(item);
+        });
     }
     throw new Exception('Unknown item!');
   }

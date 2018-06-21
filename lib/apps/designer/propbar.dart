@@ -33,11 +33,15 @@ class RightSidebar implements Component {
   @override
   String key;
 
+  final View view;
+
+  RightSidebar(this.view);
+
   @override
   View makeView() {
     return Box(class_: 'rsidebar', children: [
       _Tabs(),
-      Box(class_: 'rsidebar-content'),
+      Box(class_: 'rsidebar-content', child: view),
     ]);
   }
 }

@@ -1,16 +1,18 @@
 import 'package:nuts/nuts.dart';
 import 'package:webclient/models/models.dart';
 import 'package:webclient/components/stage/stage.dart';
+import 'package:webclient/components/property/property.dart';
 import 'pagelist.dart';
 import 'propbar.dart';
 
-class RxProperty {
-  const RxProperty();
-}
-
 Program program;
 
-final selectedPage = new Reactive<Page>();
+final selectedPage = new Reactive<Page>()
+  ..values.listen((p) {
+    selectedItem.value = null;
+  });
+
+final selectedItem = StoredReactive<PageItem>();
 
 class TitleBar implements Component {
   @override
@@ -42,10 +44,14 @@ class Designer implements Component {
         PageList(program.pages, selectedPage)
       ]),
       Box(class_: 'content', children: [
-        VariableView<Page>(
-            selectedPage.value, selectedPage.values, (p) => Stage(p)),
+        VariableView<Page>(selectedPage.value, selectedPage.values,
+            (p) => Stage(p)..onSelect.bindRx(selectedItem)),
       ]),
-      RightSidebar(),
+      RightSidebar(
+          VariableView<PageItem>(selectedItem.value, selectedItem.values, (i) {
+        if (i is TextItem) return TextItemProperties(i);
+        return Box();
+      })),
     ]);
   }
 }
