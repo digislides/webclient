@@ -3,7 +3,7 @@ import 'package:nuts/nuts.dart';
 import 'package:webclient/models/models.dart';
 
 class PageListItem implements Component {
-  Page page;
+  final Page page;
 
   final Reactive<Page> selectedPage;
 
@@ -15,10 +15,13 @@ class PageListItem implements Component {
   @override
   final String key;
 
-  PageListItem(this.page, this.selectedPage) : key = page.id {}
+  PageListItem(this.page, this.selectedPage) : key = page.id {
+    view = _makeView();
+  }
 
-  @override
-  View makeView() {
+  View view;
+
+  View _makeView() {
     HBox ret;
     ret = HBox(class_: 'slidelist-item', children: [
       TextField(
@@ -40,11 +43,15 @@ class PageList implements Component {
 
   final Reactive<Page> selectedPage;
 
-  PageList(this.pages, this.selectedPage, {this.key});
+  PageList(this.pages, this.selectedPage, {this.key}) {
+    view = _makeView();
+  }
 
-  @override
-  View makeView() {
+  View view;
+
+  View _makeView() {
     return Box(
-        class_: 'slidelist', children: pages.map((page) => PageListItem(page, selectedPage)));
+        class_: 'slidelist',
+        children: pages.map((page) => PageListItem(page, selectedPage)));
   }
 }

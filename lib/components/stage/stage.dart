@@ -1,6 +1,8 @@
+import 'dart:math';
 import 'dart:async';
 import 'package:nuts/nuts.dart';
 import 'package:webclient/models/models.dart';
+import 'anchor.dart';
 
 class Stage implements Component {
   @override
@@ -8,9 +10,11 @@ class Stage implements Component {
 
   final Page page;
 
-  final onSelect = StreamBackedEmitter<PageItem>();
+  final Reactive<PageItem> selectedItem;
 
-  Stage(this.page, {this.key});
+  Stage(this.page, this.selectedItem, {this.key}) {
+    view = _makeView();
+  }
 
   final resizing = StoredReactive<bool>(initial: false);
 
@@ -28,23 +32,88 @@ class Stage implements Component {
   Stream<Distance> get _heights =>
       page.rx.height.map((int v) => FixedDistance(v));
 
-  @override
-  View makeView() => Box(
+  final state = StoredReactive<int>(initial: 0);
+
+  Stream<bool> get _isMoving => state.map((v) => v != 0);
+
+  dynamic _start;
+
+  View view;
+
+  View _makeView() => Tin(
         class_: 'stage-viewport',
-        child: Box(
+        child: Relative(
           class_: 'stage-canvas',
-          width: _canvasWidths,
-          height: _canvasHeights,
-          child: Box(
-            class_: 'stage',
-            width: _widths,
-            height: _heights,
-            backgroundColor: page.rx.color,
-            children: RxChildList(page.items,
-                (p) => StageItem(p)..onSelect.pipeToOther(onSelect)),
-          ),
-        ),
+          minWidth: _canvasWidths,
+          minHeight: _canvasHeights,
+          children: [
+            Absolute(
+              class_: 'stage',
+              width: _widths,
+              height: _heights,
+              backgroundColor: page.rx.color,
+              children: RxChildList(
+                  page.items,
+                  (p) => StageItem(p)
+                    ..onSelect.on((i) {
+                      selectedItem.value = i;
+                    })),
+            )..classes.bindBool('inactive', _isMoving),
+            Absolute(
+                class_: 'stage-anchors',
+                width: _widths,
+                height: _heights,
+                child: VariableView<PageItem>.rx(selectedItem, (i) {
+                  if (i == null) return Box();
+                  return Anchors(i, _isMoving)
+                    ..onMoveStart.on(() {
+                      if (selectedItem.value == null) return;
+                      state.value = 1;
+                      _start = selectedItem.value.rect.topLeft;
+                    })
+                    ..onHResizeStart.on(() {
+                      if (selectedItem.value == null) return;
+                      state.value = 2;
+                      _start = selectedItem.value.width;
+                    })
+                    ..onVResizeStart.on(() {
+                      if (selectedItem.value == null) return;
+                      state.value = 3;
+                      _start = selectedItem.value.height;
+                    });
+                })),
+          ],
+        )
+          ..onMouseDown.listen(() {
+            _clickStart = DateTime.now();
+          })
+          ..onMouseUp.on((ClickEvent e) {
+            state.value = 0;
+            _start = null;
+            if (_clickStart != null) {
+              var timeDiff = DateTime.now().difference(_clickStart);
+              if (timeDiff < Duration(milliseconds: 500))
+                selectedItem.value = null;
+            }
+            _clickStart = null;
+          })
+          ..onMouseMove.on((ClickEvent e) {
+            if (e.button != 1 || selectedItem.value == null) return;
+            if (state.value == 1) {
+              selectedItem.value.left = e.offset.x.toInt() - 150;
+              selectedItem.value.top = e.offset.y.toInt() - 150;
+            } else if (state.value == 2) {
+              int width = e.offset.x.toInt() - 150 - selectedItem.value.left;
+              if (width < 0) width = 0;
+              selectedItem.value.width = width;
+            } else if (state.value == 3) {
+              int height = e.offset.y.toInt() - 150 - selectedItem.value.top;
+              if (height < 0) height = 0;
+              selectedItem.value.height = height;
+            }
+          }), // TODO mouse out,
       );
+  DateTime _clickStart;
 }
 
 class StageItem implements Component {
@@ -55,10 +124,12 @@ class StageItem implements Component {
 
   StageItem(this.item, {onClick}) {
     if (onClick != null) this.onSelect.on(onClick);
+    view = _makeView();
   }
 
-  @override
-  View makeView() {
+  View view;
+
+  View _makeView() {
     if (item is TextItem) {
       TextItem item = this.item;
       return TextField(

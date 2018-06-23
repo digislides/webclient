@@ -2,14 +2,16 @@ import 'package:nuts/nuts.dart';
 import 'package:webclient/models/models.dart';
 import 'package:webclient/components/stage/stage.dart';
 import 'package:webclient/components/property/property.dart';
+import 'package:webclient/components/adder/adder.dart';
 import 'pagelist.dart';
 import 'propbar.dart';
 
 Program program;
 
-final selectedPage = new Reactive<Page>()
+final selectedPage = new StoredReactive<Page>()
   ..values.listen((p) {
-    selectedItem.value = null;
+    if (selectedItem.value != null) // TODO why is this necessary
+      selectedItem.value = null;
   });
 
 final selectedItem = StoredReactive<PageItem>();
@@ -20,10 +22,13 @@ class TitleBar implements Component {
 
   String name;
 
-  TitleBar(this.name, {this.key});
+  TitleBar(this.name, {this.key}) {
+    view = _makeView();
+  }
 
-  @override
-  View makeView() {
+  View view;
+
+  View _makeView() {
     return Box(class_: 'titlebar', children: [
       HBox(
           class_: 'title-holder',
@@ -36,22 +41,26 @@ class Designer implements Component {
   @override
   String key;
 
-  @override
-  View makeView() {
+  Designer() {
+    view = _makeView();
+  }
+
+  View view;
+
+  View _makeView() {
     return HBox(class_: 'app', children: [
       Box(class_: 'sidebar', children: [
         TitleBar(program.name),
         PageList(program.pages, selectedPage)
       ]),
       Box(class_: 'content', children: [
-        VariableView<Page>(selectedPage.value, selectedPage.values,
-            (p) => Stage(p)..onSelect.pipeToRx(selectedItem)),
+        VariableView<Page>.rx(selectedPage, (p) => Stage(p, selectedItem)),
       ]),
-      RightSidebar(
-          VariableView<PageItem>(selectedItem.value, selectedItem.values, (i) {
+      RightSidebar(VariableView<PageItem>.rx(selectedItem, (i) {
         if (i is TextItem) return TextItemProperties(i);
         return Box();
       })),
+      Adder(),
     ]);
   }
 }

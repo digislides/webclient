@@ -9,10 +9,14 @@ class TextItemProperties implements Component {
 
   final TextItem item;
 
-  TextItemProperties(this.item, {this.key});
+  TextItemProperties(this.item, {this.key}) {
+    view = _makeView();
+  }
+
+  View view;
 
   @override
-  View makeView() {
+  View _makeView() {
     return Box(children: [
       PositionProperty(item),
       SizeProperty(item),
@@ -28,10 +32,14 @@ class PositionProperty implements Component {
 
   final PageItem item;
 
-  PositionProperty(this.item, {this.key});
+  PositionProperty(this.item, {this.key}) {
+    view = _makeView();
+  }
+
+  View view;
 
   @override
-  View makeView() {
+  View _makeView() {
     return HBox(children: [
       IconEdit<int>(IntEdit(value: item.rx.left),
           icon: FASolid.angle_right,
@@ -52,10 +60,14 @@ class SizeProperty implements Component {
 
   final PageItem item;
 
-  SizeProperty(this.item, {this.key});
+  SizeProperty(this.item, {this.key}) {
+    view = _makeView();
+  }
+
+  View view;
 
   @override
-  View makeView() {
+  View _makeView() {
     return HBox(children: [
       IconEdit<int>(IntEdit(value: item.rx.width),
           icon: FASolid.arrows_alt_h,
@@ -79,10 +91,14 @@ class ColorProperty implements Component {
 
   final editor = StoredReactive<bool>();
 
-  ColorProperty(this.icon, this.property, {this.key});
+  ColorProperty(this.icon, this.property, {this.key}) {
+    view = _makeView();
+  }
+
+  View view;
 
   @override
-  View makeView() {
+  View _makeView() {
     var colorItemView = List<View>(colors.length);
     for (int i = 0; i < colors.length; i++) {
       String color = colors.keys.elementAt(i);
@@ -98,8 +114,7 @@ class ColorProperty implements Component {
       HBox(
         class_: 'ech-coloredit',
         children: [
-          TextField(
-              text: icon, fontFamily: 'fa5-free', class_: 'ech-label'),
+          TextField(text: icon, fontFamily: 'fa5-free', class_: 'ech-label'),
           Box(class_: 'ech-color-display', backgroundColor: property),
           TextEdit(
               value: property,
@@ -164,10 +179,13 @@ class IconEdit<T> implements Component, EditView<T> {
     labelled.classes.add('textinput');
     labelled.classes.remove('textinput');
     if (onCommit != null) this.onCommit.on(onCommit);
+    view = _makeView();
   }
 
+  View view;
+
   @override
-  View makeView() {
+  View _makeView() {
     return HBox(
         class_: 'ech-iconedit',
         children: [

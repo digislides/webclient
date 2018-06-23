@@ -189,6 +189,15 @@ html, body {
     background-color: white;
 }
 
+.ech-coloredit:hover {
+    box-shadow: inset 1px 2px 2px 0px #0000001f;
+}
+
+.ech-coloredit:focus-within {
+    border-color: #3F51B5;
+    box-shadow: inset 1px 2px 2px 0px #0000001f;
+}
+
 .ech-coloredit .ech-label {
     width: 16px;
     text-align: center;
@@ -248,4 +257,35 @@ html, body {
 
 .ech-colors-list-item:hover {
     background-color: #d2d7ff;
+}
+
+.adder {
+    position: fixed;
+    left: 200px;
+    top: 0px;
+    background-color: white;
+    border: 1px solid #00000033;
+    border-top: 3px solid #283593;
+    border-left: 0px;
+    border-radius: 0px 0px 5px 0px;
+}
+
+.adder .item {
+    width: 32px;
+    height: 28px;
+    text-align: center;
+    line-height: 28px;
+    cursor: pointer;
+    color: #a2a2a2;
+    user-select: none;
+    border-right: 1px solid #00000014;
+}
+
+.adder .item:hover {
+    color: #283593;
+    background-color: #2835931f;
+}
+
+.adder .item:active {
+    color: #a2a2a2;
 }

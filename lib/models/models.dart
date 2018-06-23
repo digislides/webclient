@@ -245,6 +245,8 @@ abstract class RxPageItem {
   Reactive<int> get top;
 
   Reactive<String> get bgColor;
+
+  Reactive<Rectangle<int>> get rect;
 }
 
 abstract class PageItem {
@@ -413,6 +415,7 @@ abstract class TextualItem implements PageItem {
 
 class RxTextItem extends Object with RxPageItemMixin implements RxPageItem {
   final text = StoredReactive<String>();
+  final rect = StoredReactive<Rectangle<int>>();
 }
 
 class TextItem extends Object
@@ -446,6 +449,10 @@ class TextItem extends Object
     this.top = top;
     this.text = text;
     this.bgColor = bgColor;
+    rx.left.listen((_) => rx.rect.value = rect);
+    rx.top.listen((_) => rx.rect.value = rect);
+    rx.width.listen((_) => rx.rect.value = rect);
+    rx.height.listen((_) => rx.rect.value = rect);
   }
 
   TextItem clone() {
@@ -514,34 +521,46 @@ class ImageFit {
   }
 }
 
-/*
+class RxImageItem extends Object with RxPageItemMixin implements RxPageItem {
+  final url = StoredReactive<String>();
+  final fit = StoredReactive<ImageFit>();
+  final rect = StoredReactive<Rectangle<int>>();
+}
+
 class ImageItem extends Object with PageItemMixin implements PageItem {
   String id;
 
-  String name;
+  final RxImageItem rx = RxImageItem();
 
-  int width;
+  String get url => rx.url.value;
+  set url(String value) => rx.url.value = value;
 
-  int height;
-
-  int left;
-
-  int top;
-
-  String url;
-
-  ImageFit fit;
+  ImageFit get fit => rx.fit.value;
+  set fit(ImageFit value) => rx.fit.value = value;
 
   ImageItem(
       {this.id,
-      this.name: 'Image',
-      this.width: 0,
-      this.height: 0,
-      this.left: 0,
-      this.top: 0,
-      this.url,
-      this.fit: ImageFit.cover}) {
+      String name: 'Image',
+      int width: 0,
+      int height: 0,
+      int left: 0,
+      int top: 0,
+      String bgColor: 'transparent',
+      String url,
+      ImageFit fit: ImageFit.cover}) {
     id ??= new ObjectId().toHexString();
+    this.name = name;
+    this.width = width;
+    this.height = height;
+    this.left = left;
+    this.top = top;
+    this.bgColor = bgColor;
+    this.url = url;
+    this.fit = fit;
+    rx.left.listen((_) => rx.rect.value = rect);
+    rx.top.listen((_) => rx.rect.value = rect);
+    rx.width.listen((_) => rx.rect.value = rect);
+    rx.height.listen((_) => rx.rect.value = rect);
   }
 
   ImageItem clone() {
@@ -582,6 +601,8 @@ class ImageItem extends Object with PageItemMixin implements PageItem {
   @override
   final PageItemType type = PageItemType.image;
 }
+
+/*
 
 class VideoItem extends Object with PageItemMixin implements PageItem {
   String id;
