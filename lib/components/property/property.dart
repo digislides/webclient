@@ -3,28 +3,8 @@ import 'package:nuts/nuts.dart';
 import 'package:webclient/models/models.dart';
 import 'package:fontawesome/fontawesome.dart';
 
-class TextItemProperties implements Component {
-  @override
-  final String key;
-
-  final TextItem item;
-
-  TextItemProperties(this.item, {this.key}) {
-    view = _makeView();
-  }
-
-  View view;
-
-  @override
-  View _makeView() {
-    return Box(children: [
-      PositionProperty(item),
-      SizeProperty(item),
-      ColorProperty(FASolid.chess_board, item.rx.bgColor),
-      ColorProperty(FASolid.font, item.font.rx.color),
-    ]);
-  }
-}
+export 'text.dart';
+export 'image.dart';
 
 class PositionProperty implements Component {
   @override
@@ -38,7 +18,6 @@ class PositionProperty implements Component {
 
   View view;
 
-  @override
   View _makeView() {
     return HBox(children: [
       IconEdit<int>(IntEdit(value: item.rx.left),
@@ -50,7 +29,10 @@ class PositionProperty implements Component {
           icon: FASolid.angle_down,
           width: FlexSize(1.0),
           onCommit: (ValueCommitEvent<int> vc) => item.top = vc.value ?? 0)
-    ], class_: 'ech-doublefield');
+    ], classes: [
+      'ech-field',
+      'ech-field-two'
+    ]);
   }
 }
 
@@ -66,7 +48,6 @@ class SizeProperty implements Component {
 
   View view;
 
-  @override
   View _makeView() {
     return HBox(children: [
       IconEdit<int>(IntEdit(value: item.rx.width),
@@ -78,7 +59,10 @@ class SizeProperty implements Component {
           icon: FASolid.arrows_alt_v,
           width: FlexSize(1.0),
           onCommit: (ValueCommitEvent<int> vc) => item.height = vc.value ?? 0)
-    ], class_: 'ech-doublefield');
+    ], classes: [
+      'ech-field',
+      'ech-field-two'
+    ]);
   }
 }
 
@@ -97,7 +81,6 @@ class ColorProperty implements Component {
 
   View view;
 
-  @override
   View _makeView() {
     var colorItemView = List<View>(colors.length);
     for (int i = 0; i < colors.length; i++) {
@@ -112,9 +95,10 @@ class ColorProperty implements Component {
     }
     return Box(class_: 'ech-field', children: [
       HBox(
-        class_: 'ech-coloredit',
+        classes: ['ech-superdropdownedit', 'ech-coloredit'],
         children: [
-          TextField(text: icon, fontFamily: 'fa5-free', class_: 'ech-label'),
+          TextField(
+              text: icon, fontFamily: 'fa5-free', class_: 'ech-field-label'),
           Box(class_: 'ech-color-display', backgroundColor: property),
           TextEdit(
               value: property,
@@ -128,7 +112,7 @@ class ColorProperty implements Component {
           TextField(
               text: FASolid.list,
               fontFamily: 'fa5-free',
-              class_: 'ech-action',
+              class_: 'ech-field-action',
               onClick: () {
                 if (editor.value == false) {
                   editor.value = null;
@@ -140,7 +124,7 @@ class ColorProperty implements Component {
           TextField(
               text: FASolid.palette,
               fontFamily: 'fa5-free',
-              class_: 'ech-action',
+              class_: 'ech-field-action',
               onClick: () {
                 if (editor.value == true) {
                   editor.value = null;
@@ -184,7 +168,6 @@ class IconEdit<T> implements Component, EditView<T> {
 
   View view;
 
-  @override
   View _makeView() {
     return HBox(
         class_: 'ech-iconedit',
@@ -201,6 +184,56 @@ class IconEdit<T> implements Component, EditView<T> {
   set value(T value) => valueProperty.value = value;
   void setCastValue(v) => valueProperty.value = value;
   StreamBackedEmitter<ValueCommitEvent<T>> get onCommit => labelled.onCommit;
+}
+
+class FitProperty implements Component {
+  final Reactive<Fit> property;
+
+  @override
+  final String key;
+
+  final editor = StoredReactive<bool>(initial: false);
+
+  FitProperty(this.property, {this.key}) {
+    view = _makeView();
+  }
+
+  View view;
+
+  View _makeView() {
+    return Box(class_: 'ech-field', children: [
+      HBox(
+        classes: ['ech-superdropdownedit', 'ech-fitedit'],
+        children: [
+          TextField(
+              text: FASolid.expand,
+              fontFamily: 'fa5-free',
+              class_: 'ech-field-label'),
+          TextField(
+              text: property.map((f) => f.name),
+              width: FlexSize(1.0),
+              class_: 'ech-dropdown-value'),
+          TextField(
+              text:
+                  editor.map((v) => v ? FASolid.angle_up : FASolid.angle_down),
+              fontFamily: 'fa5-free',
+              class_: 'ech-field-action',
+              onClick: () => editor.value = !editor.value)
+            ..classes.bindBool('selected', editor.map((v) => v == true)),
+        ],
+      ),
+      VariableView<bool>.rx(editor, (b) {
+        if (b)
+          return Box(
+              class_: 'ech-colors-list',
+              children: Fit.values.map((Fit fit) => HBox(
+                  class_: 'ech-colors-list-item',
+                  children: [TextField(text: fit.name)],
+                  onClick: () => property.value = fit)));
+        return Box();
+      }),
+    ]);
+  }
 }
 
 final colors = {

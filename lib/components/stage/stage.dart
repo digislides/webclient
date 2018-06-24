@@ -84,15 +84,15 @@ class Stage implements Component {
                 })),
           ],
         )
-          ..onMouseDown.listen(() {
-            _clickStart = DateTime.now();
+          ..onMouseDown.listen((ClickEvent e) {
+            _clickStart = e.time;
           })
           ..onMouseUp.on((ClickEvent e) {
             state.value = 0;
             _start = null;
             if (_clickStart != null) {
               var timeDiff = DateTime.now().difference(_clickStart);
-              if (timeDiff < Duration(milliseconds: 500))
+              if (timeDiff < Duration(milliseconds: 100))
                 selectedItem.value = null;
             }
             _clickStart = null;
@@ -133,7 +133,7 @@ class StageItem implements Component {
     if (item is TextItem) {
       TextItem item = this.item;
       return TextField(
-          class_: 'stage-item',
+          classes: ['stage-item', 'stage-item-text'],
           text: item.rx.text,
           width: item.rx.width.map((w) => FixedDistance(w)),
           height: item.rx.height.map((w) => FixedDistance(w)),
@@ -144,7 +144,43 @@ class StageItem implements Component {
         ..onClick.on((_) {
           onSelect.emit(item);
         });
+    } else if (item is ImageItem) {
+      ImageItem item = this.item;
+      return Tin(
+          classes: ['stage-item', 'stage-item-image'],
+          backgroundImage: item.rx.url.map((v) => v ?? '').map(
+              (v) => v.isNotEmpty ? 'url($v)' : '/static/image/no_image.svg'),
+          width: item.rx.width.map((w) => FixedDistance(w)),
+          height: item.rx.height.map((w) => FixedDistance(w)),
+          left: item.rx.left.map((w) => FixedDistance(w)),
+          top: item.rx.top.map((w) => FixedDistance(w)),
+          backgroundColor: item.rx.bgColor)
+        ..classes.bindOneOf(
+            ['fit-normal', 'fit-contains', 'fit-cover', 'fit-tile'],
+            item.rx.fit.map((f) => f.id),
+            item.rx.fit.value.id)
+        ..onClick.on((_) {
+          onSelect.emit(item);
+        });
+    } else if (item is VideoItem) {
+      VideoItem item = this.item;
+      return Tin(
+          classes: ['stage-item', 'stage-item-video'],
+          // TODO image
+          width: item.rx.width.map((w) => FixedDistance(w)),
+          height: item.rx.height.map((w) => FixedDistance(w)),
+          left: item.rx.left.map((w) => FixedDistance(w)),
+          top: item.rx.top.map((w) => FixedDistance(w)),
+          backgroundColor: item.rx.bgColor)
+        ..classes.bindOneOf(
+            ['fit-normal', 'fit-contains', 'fit-cover', 'fit-tile'],
+            item.rx.fit.map((f) => f.id),
+            item.rx.fit.value.id)
+        ..onClick.on((_) {
+          onSelect.emit(item);
+        });
     }
+    // TODO
     throw new Exception('Unknown item!');
   }
 }

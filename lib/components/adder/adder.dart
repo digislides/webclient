@@ -10,17 +10,39 @@ class Adder implements Component {
   @override
   View view;
 
+  final onAction = StreamBackedEmitter<String>();
+
   Adder({this.key}) {
     view = _makeView();
   }
 
   View _makeView() {
     return HBox(class_: 'adder', children: [
-      TextField(class_: 'item', text: FASolid.i_cursor, fontFamily: 'fa5-free'),
-      TextField(class_: 'item', text: FASolid.image, fontFamily: 'fa5-free'),
-      TextField(class_: 'item', text: FASolid.video, fontFamily: 'fa5-free'),
-      TextField(class_: 'item', text: FASolid.clock, fontFamily: 'fa5-free'),
-      TextField(class_: 'item', text: FASolid.sun, fontFamily: 'fa5-free'),
+      TextField(
+          class_: 'item',
+          text: FASolid.i_cursor,
+          fontFamily: 'fa5-free',
+          onClick: () => onAction.emit('add-text')),
+      TextField(
+          class_: 'item',
+          text: FASolid.image,
+          fontFamily: 'fa5-free',
+          onClick: () => onAction.emit('add-image')),
+      TextField(
+          class_: 'item',
+          text: FASolid.video,
+          fontFamily: 'fa5-free',
+          onClick: () => onAction.emit('add-video')),
+      TextField(
+          class_: 'item',
+          text: FASolid.clock,
+          fontFamily: 'fa5-free',
+          onClick: () => onAction.emit('add-clock')),
+      TextField(
+          class_: 'item',
+          text: FASolid.sun,
+          fontFamily: 'fa5-free',
+          onClick: () => onAction.emit('add-sun')),
     ]);
   }
 }

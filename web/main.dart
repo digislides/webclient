@@ -16,7 +16,7 @@ void main() {
             name: 'Page1',
             width: 150,
             height: 150,
-            color: 'red',
+            color: 'white',
             items: [
               TextItem(
                   id: '1',

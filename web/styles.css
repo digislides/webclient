@@ -134,14 +134,10 @@ html, body {
 }
 
 .ech-field {
-    padding: 2px 5px;
+    margin: 3px 5px;
 }
 
-.ech-doublefield {
-    padding: 2px 5px;
-}
-
-.ech-doublefield > .textfield {
+.ech-field-two > .textfield {
     margin: 0px 10px;
 }
 
@@ -180,7 +176,7 @@ html, body {
     text-align: right;
 }
 
-.ech-coloredit {
+.ech-superdropdownedit {
     border-radius: 4px 4px 0px 0px;
     border: 1px solid #00000029;
     padding: 3px 5px;
@@ -189,16 +185,16 @@ html, body {
     background-color: white;
 }
 
-.ech-coloredit:hover {
+.ech-superdropdownedit:hover {
     box-shadow: inset 1px 2px 2px 0px #0000001f;
 }
 
-.ech-coloredit:focus-within {
+.ech-superdropdownedit:focus-within {
     border-color: #3F51B5;
     box-shadow: inset 1px 2px 2px 0px #0000001f;
 }
 
-.ech-coloredit .ech-label {
+.ech-field-label {
     width: 16px;
     text-align: center;
     color: #cecece;
@@ -207,13 +203,13 @@ html, body {
 .ech-color-display {
     width: 8px;
     height: 8px;
-    margin: 0px 4px 0px 8px;
+    margin: 0px 2px 0px 6px;
     border: 1px solid black;
 }
 
-.ech-coloredit input {
+.ech-superdropdownedit input {
     width: 0;
-    padding: 0px;
+    padding: 1px 4px;
     margin: 0px;
     background: transparent;
     border: none;
@@ -221,7 +217,15 @@ html, body {
     flex: 1;
 }
 
-.ech-coloredit .ech-action {
+.ech-superdropdownedit:hover input {
+    background-color: #f1f1f1;
+}
+
+.ech-superdropdownedit input:focus {
+    background-color: #f1f1f1;
+}
+
+.ech-field-action {
     width: 16px;
     text-align: center;
     color: #8594ff;
@@ -230,14 +234,14 @@ html, body {
     font-size: 12px;
 }
 
-.ech-coloredit .ech-action:hover {
+.ech-field-action:hover {
     color: #283593;
 }
 
-.ech-coloredit .ech-action:active {
+.ech-field-action:active {
 }
 
-.ech-coloredit .ech-action.selected {
+.ech-field-action.selected {
     color: #283593;
 }
 
@@ -253,6 +257,7 @@ html, body {
     padding: 5px;
     font-size: 12px;
     cursor: pointer;
+    user-select: none;
 }
 
 .ech-colors-list-item:hover {
@@ -288,4 +293,52 @@ html, body {
 
 .adder .item:active {
     color: #a2a2a2;
+}
+
+.ech-field-row {
+    margin-top: 2px;
+}
+
+.ech-image-display-tiny {
+    width: 14px;
+    height: 14px;
+    border: 1px solid black;
+    background-color: #f1f1f1;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.fit-normal {
+    background-size: auto;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.fit-contain {
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.fit-cover {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.fit-tile {
+    background-size: auto;
+    background-repeat: repeat;
+}
+
+.ech-dropdown-value {
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.ech-multilineedit {
+    resize: unset;
+    width: calc(100% - 12px);
+    height: 50px;
 }

@@ -1,4 +1,5 @@
 import 'package:nuts/nuts.dart';
+import 'package:bson_objectid/bson_objectid.dart';
 import 'package:webclient/models/models.dart';
 import 'package:webclient/components/stage/stage.dart';
 import 'package:webclient/components/property/property.dart';
@@ -58,9 +59,35 @@ class Designer implements Component {
       ]),
       RightSidebar(VariableView<PageItem>.rx(selectedItem, (i) {
         if (i is TextItem) return TextItemProperties(i);
+        if (i is ImageItem) return ImageItemProperties(i);
         return Box();
       })),
-      Adder(),
+      Adder()
+        ..onAction.listen((String value) {
+          if (value == 'add-text') {
+            if (selectedPage.value != null) {
+              var nI = TextItem(id: ObjectId().toHexString());
+              selectedPage.value.items.add(nI);
+              selectedItem.value = nI;
+            }
+          } else if (value == 'add-image') {
+            if (selectedPage.value != null) {
+              var nI = ImageItem(id: ObjectId().toHexString());
+              selectedPage.value.items.add(nI);
+              selectedItem.value = nI;
+            }
+          } else if (value == 'add-video') {
+            if (selectedPage.value != null) {
+              var nI = VideoItem(id: ObjectId().toHexString());
+              selectedPage.value.items.add(nI);
+              selectedItem.value = nI;
+            }
+          } else if (value == 'add-clock') {
+            // TODO
+          } else if (value == 'add-sun') {
+            // TODO
+          }
+        }),
     ]);
   }
 }
