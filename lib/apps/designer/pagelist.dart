@@ -5,7 +5,7 @@ import 'package:webclient/models/models.dart';
 class PageListItem implements Component {
   final Page page;
 
-  final Reactive<Page> selectedPage;
+  final RxValue<Page> selectedPage;
 
   bool get isSelected => page == selectedPage.value;
 
@@ -41,7 +41,7 @@ class PageList implements Component {
 
   final List<Page> pages;
 
-  final Reactive<Page> selectedPage;
+  final StoredValue<Page> selectedPage;
 
   PageList(this.pages, this.selectedPage, {this.key}) {
     view = _makeView();

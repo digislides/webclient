@@ -47,19 +47,19 @@ PageItem createItem(int type, Map v) {
 }
 
 abstract class RxPageItem {
-  Reactive<String> get name;
+  RxValue<String> get name;
 
-  Reactive<int> get width;
+  RxValue<int> get width;
 
-  Reactive<int> get height;
+  RxValue<int> get height;
 
-  Reactive<int> get left;
+  RxValue<int> get left;
 
-  Reactive<int> get top;
+  RxValue<int> get top;
 
-  Reactive<String> get bgColor;
+  RxValue<String> get bgColor;
 
-  Reactive<Rectangle<int>> get rect;
+  RxValue<Rectangle<int>> get rect;
 }
 
 abstract class PageItem {
@@ -113,15 +113,15 @@ abstract class PageItemMixin implements PageItem {
 }
 
 abstract class RxPageItemMixin implements RxPageItem {
-  final name = Reactive<String>();
+  final name = RxValue<String>();
 
-  final width = Reactive<int>();
+  final width = RxValue<int>();
 
-  final height = Reactive<int>();
+  final height = RxValue<int>();
 
-  final left = Reactive<int>();
+  final left = RxValue<int>();
 
-  final top = Reactive<int>();
+  final top = RxValue<int>();
 
-  final bgColor = StoredReactive<String>();
+  final bgColor = RxValue<String>();
 }

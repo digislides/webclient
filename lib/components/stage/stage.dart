@@ -10,15 +10,15 @@ class Stage implements Component {
 
   final Page page;
 
-  final Reactive<PageItem> selectedItem;
+  final RxValue<PageItem> selectedItem;
 
   Stage(this.page, this.selectedItem, {this.key}) {
     view = _makeView();
   }
 
-  final resizing = StoredReactive<bool>(initial: false);
+  final resizing = RxValue<bool>(initial: false);
 
-  final moving = StoredReactive<bool>(initial: false);
+  final moving = RxValue<bool>(initial: false);
 
   Stream<Distance> get _canvasWidths =>
       page.rx.width.map((int v) => FixedDistance(v + 300));
@@ -32,7 +32,7 @@ class Stage implements Component {
   Stream<Distance> get _heights =>
       page.rx.height.map((int v) => FixedDistance(v));
 
-  final state = StoredReactive<int>(initial: 0);
+  final state = RxValue<int>(initial: 0);
 
   Stream<bool> get _isMoving => state.map((v) => v != 0);
 
@@ -142,7 +142,7 @@ class StageItem implements Component {
           backgroundColor: item.rx.bgColor,
           color: item.font.rx.color)
         ..onClick.on((_) {
-          onSelect.emit(item);
+          onSelect.emitOne(item);
         });
     } else if (item is ImageItem) {
       ImageItem item = this.item;
@@ -155,12 +155,12 @@ class StageItem implements Component {
           left: item.rx.left.map((w) => FixedDistance(w)),
           top: item.rx.top.map((w) => FixedDistance(w)),
           backgroundColor: item.rx.bgColor)
-        ..classes.bindOneOf(
+        ..classes.bindOneByIndexStream(
             ['fit-normal', 'fit-contains', 'fit-cover', 'fit-tile'],
             item.rx.fit.map((f) => f.id),
             item.rx.fit.value.id)
         ..onClick.on((_) {
-          onSelect.emit(item);
+          onSelect.emitOne(item);
         });
     } else if (item is VideoItem) {
       VideoItem item = this.item;
@@ -172,12 +172,12 @@ class StageItem implements Component {
           left: item.rx.left.map((w) => FixedDistance(w)),
           top: item.rx.top.map((w) => FixedDistance(w)),
           backgroundColor: item.rx.bgColor)
-        ..classes.bindOneOf(
+        ..classes.bindOneByIndexStream(
             ['fit-normal', 'fit-contains', 'fit-cover', 'fit-tile'],
             item.rx.fit.map((f) => f.id),
             item.rx.fit.value.id)
         ..onClick.on((_) {
-          onSelect.emit(item);
+          onSelect.emitOne(item);
         });
     }
     // TODO

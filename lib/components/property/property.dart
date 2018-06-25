@@ -68,12 +68,12 @@ class SizeProperty implements Component {
 
 class ColorProperty implements Component {
   final String icon;
-  final Reactive<String> property;
+  final RxValue<String> property;
 
   @override
   final String key;
 
-  final editor = StoredReactive<bool>();
+  final editor = RxValue<bool>();
 
   ColorProperty(this.icon, this.property, {this.key}) {
     view = _makeView();
@@ -179,7 +179,7 @@ class IconEdit<T> implements Component, EditView<T> {
         height: height);
   }
 
-  BackedReactive<T> get valueProperty => labelled.valueProperty;
+  ProxyValue<T> get valueProperty => labelled.valueProperty;
   T get value => labelled.value;
   set value(T value) => valueProperty.value = value;
   void setCastValue(v) => valueProperty.value = value;
@@ -187,12 +187,12 @@ class IconEdit<T> implements Component, EditView<T> {
 }
 
 class FitProperty implements Component {
-  final Reactive<Fit> property;
+  final RxValue<Fit> property;
 
   @override
   final String key;
 
-  final editor = StoredReactive<bool>(initial: false);
+  final editor = RxValue<bool>(initial: false);
 
   FitProperty(this.property, {this.key}) {
     view = _makeView();

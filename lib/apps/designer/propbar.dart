@@ -6,9 +6,9 @@ class _Tabs implements Component {
   @override
   String key;
 
-  final StoredReactive<bool> showingItems;
+  final RxValue<bool> showingItems;
 
-  _Tabs() : showingItems = StoredReactive<bool>(initial: false) {
+  _Tabs() : showingItems = RxValue<bool>(initial: false) {
     view = _makeView();
   }
 

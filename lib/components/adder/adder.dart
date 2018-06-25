@@ -22,27 +22,27 @@ class Adder implements Component {
           class_: 'item',
           text: FASolid.i_cursor,
           fontFamily: 'fa5-free',
-          onClick: () => onAction.emit('add-text')),
+          onClick: () => onAction.emitOne('add-text')),
       TextField(
           class_: 'item',
           text: FASolid.image,
           fontFamily: 'fa5-free',
-          onClick: () => onAction.emit('add-image')),
+          onClick: () => onAction.emitOne('add-image')),
       TextField(
           class_: 'item',
           text: FASolid.video,
           fontFamily: 'fa5-free',
-          onClick: () => onAction.emit('add-video')),
+          onClick: () => onAction.emitOne('add-video')),
       TextField(
           class_: 'item',
           text: FASolid.clock,
           fontFamily: 'fa5-free',
-          onClick: () => onAction.emit('add-clock')),
+          onClick: () => onAction.emitOne('add-clock')),
       TextField(
           class_: 'item',
           text: FASolid.sun,
           fontFamily: 'fa5-free',
-          onClick: () => onAction.emit('add-sun')),
+          onClick: () => onAction.emitOne('add-sun')),
     ]);
   }
 }

@@ -29,7 +29,7 @@ class ImageItemProperties implements Component {
 
 class ImageProperty implements Component {
   final String icon;
-  final Reactive<String> property;
+  final RxValue<String> property;
 
   @override
   final String key;

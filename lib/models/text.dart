@@ -5,19 +5,19 @@ import 'package:nuts/nuts.dart';
 import 'item.dart';
 
 class RxFontProperties {
-  final size = StoredReactive<int>();
+  final size = RxValue<int>();
 
-  final align = StoredReactive<Align>();
+  final align = RxValue<Align>();
 
-  final family = StoredReactive<String>();
+  final family = RxValue<String>();
 
-  final color = StoredReactive<String>();
+  final color = RxValue<String>();
 
-  final bold = StoredReactive<bool>();
+  final bold = RxValue<bool>();
 
-  final italic = StoredReactive<bool>();
+  final italic = RxValue<bool>();
 
-  final underline = StoredReactive<bool>();
+  final underline = RxValue<bool>();
 }
 
 class FontProperties {
@@ -96,8 +96,8 @@ abstract class TextualItem implements PageItem {
 }
 
 class RxTextItem extends Object with RxPageItemMixin implements RxPageItem {
-  final text = StoredReactive<String>();
-  final rect = StoredReactive<Rectangle<int>>();
+  final text = RxValue<String>();
+  final rect = RxValue<Rectangle<int>>();
 }
 
 class TextItem extends Object

@@ -5,9 +5,9 @@ import 'package:nuts/nuts.dart';
 import 'item.dart';
 
 class RxImageItem extends Object with RxPageItemMixin implements RxPageItem {
-  final url = StoredReactive<String>();
-  final fit = StoredReactive<Fit>();
-  final rect = StoredReactive<Rectangle<int>>();
+  final url = RxValue<String>();
+  final fit = RxValue<Fit>();
+  final rect = RxValue<Rectangle<int>>();
 }
 
 class ImageItem extends Object with PageItemMixin implements PageItem {

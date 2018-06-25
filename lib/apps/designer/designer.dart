@@ -9,13 +9,13 @@ import 'propbar.dart';
 
 Program program;
 
-final selectedPage = new StoredReactive<Page>()
+final selectedPage = new StoredValue<Page>()
   ..values.listen((p) {
     if (selectedItem.value != null) // TODO why is this necessary
       selectedItem.value = null;
   });
 
-final selectedItem = StoredReactive<PageItem>();
+final selectedItem = StoredValue<PageItem>();
 
 class TitleBar implements Component {
   @override

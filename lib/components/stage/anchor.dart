@@ -28,17 +28,17 @@ class Anchors implements Component {
     return Relative(
         class_: 'anchors-holder',
         children: [
-          Absolute(class_: 'mover')..onMouseDown.pipeToOther(onMoveStart),
+          Absolute(class_: 'mover')..onMouseDown.pipeTo(onMoveStart),
           Absolute(
               classes: ['resizer', 'resizer-e'],
               left: item.rx.width.map((w) => FixedDistance(w - 4)),
               top: item.rx.height.map((h) => FixedDistance((h / 2) - 8)))
-            ..onMouseDown.pipeToOther(onHResizeStart),
+            ..onMouseDown.pipeTo(onHResizeStart),
           Absolute(
               classes: ['resizer', 'resizer-s'],
               left: item.rx.width.map((w) => FixedDistance((w / 2) - 8)),
               top: item.rx.height.map((h) => FixedDistance(h - 4)))
-            ..onMouseDown.pipeToOther(onVResizeStart),
+            ..onMouseDown.pipeTo(onVResizeStart),
         ],
         left: item.rx.left.map((l) => FixedDistance(l)),
         top: item.rx.top.map((t) => FixedDistance(t)),

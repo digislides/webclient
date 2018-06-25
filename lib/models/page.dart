@@ -8,16 +8,16 @@ import 'item.dart';
 export 'item.dart';
 
 class ReactivePage {
-  final name = StoredReactive<String>();
-  final width = StoredReactive<int>();
-  final height = StoredReactive<int>();
-  final color = StoredReactive<String>();
-  final image = StoredReactive<String>();
-  final fit = StoredReactive<Fit>();
-  final duration = StoredReactive<int>();
-  final transition = StoredReactive<int>();
-  final transitionDuration = StoredReactive<num>();
-  final items = IfList<PageItem>();
+  final name = RxValue<String>();
+  final width = RxValue<int>();
+  final height = RxValue<int>();
+  final color = RxValue<String>();
+  final image = RxValue<String>();
+  final fit = RxValue<Fit>();
+  final duration = RxValue<int>();
+  final transition = RxValue<int>();
+  final transitionDuration = RxValue<num>();
+  final items = RxList<PageItem>();
 }
 
 class Page {
@@ -52,7 +52,7 @@ class Page {
   num get transitionDuration => rx.transitionDuration.value;
   set transitionDuration(num value) => rx.transitionDuration.value = value;
 
-  IfList<PageItem> get items => rx.items;
+  RxList<PageItem> get items => rx.items;
 
   Page({
     this.id,
