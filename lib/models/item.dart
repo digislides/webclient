@@ -46,12 +46,8 @@ PageItem createItem(int type, Map v) {
   return null;
 }
 
-abstract class RxPageItem {
+abstract class RxPageItem implements ReactiveSizable {
   RxValue<String> get name;
-
-  RxValue<int> get width;
-
-  RxValue<int> get height;
 
   RxValue<int> get left;
 
@@ -62,7 +58,7 @@ abstract class RxPageItem {
   RxValue<Rectangle<int>> get rect;
 }
 
-abstract class PageItem {
+abstract class PageItem implements Sizable {
   String get id;
 
   RxPageItem get rx;
@@ -70,10 +66,6 @@ abstract class PageItem {
   PageItemType get type;
 
   String name;
-
-  int width;
-
-  int height;
 
   int left;
 

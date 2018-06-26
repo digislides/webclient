@@ -7,7 +7,18 @@ import 'item.dart';
 
 export 'item.dart';
 
-class ReactivePage {
+abstract class ReactiveSizable {
+  final width = RxValue<int>();
+  final height = RxValue<int>();
+}
+
+abstract class Sizable {
+  ReactiveSizable get rx;
+  int width;
+  int height;
+}
+
+class ReactivePage implements ReactiveSizable {
   final name = RxValue<String>();
   final width = RxValue<int>();
   final height = RxValue<int>();
@@ -20,7 +31,7 @@ class ReactivePage {
   final items = RxList<PageItem>();
 }
 
-class Page {
+class Page implements Sizable {
   String id;
 
   final ReactivePage rx = ReactivePage();

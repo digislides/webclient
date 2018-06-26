@@ -58,6 +58,8 @@ class Designer implements Component {
         VariableView<Page>.rx(selectedPage, (p) => Stage(p, selectedItem)),
       ]),
       RightSidebar(VariableView<PageItem>.rx(selectedItem, (i) {
+        if (i == null && selectedPage.value != null)
+          return PageProperties(selectedPage.value);
         if (i is TextItem) return TextItemProperties(i);
         if (i is ImageItem) return ImageItemProperties(i);
         return Box();

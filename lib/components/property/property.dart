@@ -4,6 +4,7 @@ import 'package:webclient/models/models.dart';
 import 'package:fontawesome/fontawesome.dart';
 
 export 'image.dart';
+export 'page.dart';
 export 'text.dart';
 export 'video.dart';
 
@@ -41,7 +42,7 @@ class SizeProperty implements Component {
   @override
   final String key;
 
-  final PageItem item;
+  final Sizable item;
 
   SizeProperty(this.item, {this.key}) {
     view = _makeView();
