@@ -3,8 +3,9 @@ import 'package:nuts/nuts.dart';
 import 'package:webclient/models/models.dart';
 import 'package:fontawesome/fontawesome.dart';
 
-export 'text.dart';
 export 'image.dart';
+export 'text.dart';
+export 'video.dart';
 
 class PositionProperty implements Component {
   @override

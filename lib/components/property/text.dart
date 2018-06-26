@@ -23,6 +23,17 @@ class TextItemProperties implements Component {
       SizeProperty(item),
       ColorProperty(FASolid.chess_board, item.rx.bgColor),
       ColorProperty(FASolid.font, item.font.rx.color),
+      HBox(
+          class_: 'ech-field',
+          child: IconEdit<int>(
+            IntEdit(
+                placeholder: 'Font size',
+                value: item.font.rx.size,
+                onCommit: (ValueCommitEvent<int> v) =>
+                    item.font.size = v.value),
+            icon: FASolid.text_width,
+            width: FlexSize(1.0),
+          ))
     ]);
   }
 }

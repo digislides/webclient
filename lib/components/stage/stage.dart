@@ -139,6 +139,7 @@ class StageItem implements Component {
           height: item.rx.height.map((w) => FixedDistance(w)),
           left: item.rx.left.map((w) => FixedDistance(w)),
           top: item.rx.top.map((w) => FixedDistance(w)),
+          fontSize: item.font.rx.size.map((v) => FixedDistance(v)),
           backgroundColor: item.rx.bgColor,
           color: item.font.rx.color)
         ..onClick.on((_) {

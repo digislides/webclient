@@ -24,7 +24,7 @@ void main() {
                   height: 100,
                   left: 25,
                   top: 25,
-                  bgColor: 'blue')
+                  bgColor: 'tomato')
             ]),
         Page(id: '2', name: 'Page2', width: 150, height: 150, color: 'blue'),
         Page(id: '3', name: 'Page3', width: 150, height: 150, color: 'green')
