@@ -142,9 +142,7 @@ class StageItem implements Component {
           fontSize: item.font.rx.size.map((v) => FixedDistance(v)),
           backgroundColor: item.rx.bgColor,
           color: item.font.rx.color)
-        ..onClick.on((_) {
-          onSelect.emitOne(item);
-        });
+        ..onClick.on(() => onSelect.emitOne(item));
     } else if (item is ImageItem) {
       ImageItem item = this.item;
       return Tin(
@@ -160,9 +158,7 @@ class StageItem implements Component {
             ['fit-normal', 'fit-contains', 'fit-cover', 'fit-tile'],
             item.rx.fit.map((f) => f.id),
             item.rx.fit.value.id)
-        ..onClick.on((_) {
-          onSelect.emitOne(item);
-        });
+        ..onClick.on(() => onSelect.emitOne(item));
     } else if (item is VideoItem) {
       VideoItem item = this.item;
       return Tin(
@@ -177,9 +173,7 @@ class StageItem implements Component {
             ['fit-normal', 'fit-contains', 'fit-cover', 'fit-tile'],
             item.rx.fit.map((f) => f.id),
             item.rx.fit.value.id)
-        ..onClick.on((_) {
-          onSelect.emitOne(item);
-        });
+        ..onClick.on(() => onSelect.emitOne(item));
     }
     // TODO
     throw new Exception('Unknown item!');
