@@ -5,16 +5,16 @@ description: Web client for DigiSlides
 #author: Issac <email@example.com>
 
 environment:
-  sdk: '>=2.0.0-dev.55.0 <2.0.0'
+  sdk: '>=2.0.0-dev.65.0 <3.0.0'
 
 dependencies:
   nuts:
-    path: ../../jaguar/nuts
-  fontawesome:
-    path: ../../jaguar/fontawesome
-  bson_objectid: ^0.1.0
-  path: 1.6.1
+    path: ../nuts
+  #fontawesome:
+  #  path: ../../jaguar/fontawesome
+  # bson_objectid: ^0.1.0
+  path:
 
 dev_dependencies:
-  build_runner: ^0.9.0
+  build_runner: ^0.10.0
   build_web_compilers: ^0.4.0

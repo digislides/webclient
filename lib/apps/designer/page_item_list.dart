@@ -2,20 +2,20 @@ import 'dart:async';
 import 'package:nuts/nuts.dart';
 import 'package:webclient/models/models.dart';
 
-class PageListItem implements Component {
-  final Page page;
+class PageItemListItem implements Component {
+  final PageItem item;
 
-  final RxValue<Page> selectedPage;
+  final RxValue<PageItem> selectedItem;
 
-  bool get isSelected => page == selectedPage.value;
+  bool get isSelected => item == selectedItem.value;
 
   Stream<bool> get _selectionChange =>
-      selectedPage.values.map((p) => p == page);
+      selectedItem.values.map((p) => p == item);
 
   @override
   final String key;
 
-  PageListItem(this.page, this.selectedPage) : key = page.id {
+  PageItemListItem(this.item, this.selectedItem) : key = item.id {
     view = _makeView();
   }
 
@@ -24,25 +24,26 @@ class PageListItem implements Component {
   View _makeView() {
     HBox ret;
     ret = HBox(class_: 'slidelist-item', children: [
+      // TODO icon
       TextField(
-          text: page.rx.name,
+          text: item.rx.name,
           class_: 'slidelist-label',
-          onClick: () => selectedPage.value = page)
+          onClick: () => selectedItem.value = item)
     ])
       ..classes.bindBool('selected', _selectionChange, isSelected);
     return ret;
   }
 }
 
-class PageList implements Component {
+class PageItemList implements Component {
   @override
   String key;
 
-  final List<Page> pages;
+  final List<PageItem> items;
 
-  final StoredValue<Page> selectedPage;
+  final StoredValue<PageItem> selectedItem;
 
-  PageList(this.pages, this.selectedPage, {this.key}) {
+  PageItemList(this.items, this.selectedItem, {this.key}) {
     view = _makeView();
   }
 
@@ -51,6 +52,6 @@ class PageList implements Component {
   View _makeView() {
     return Box(
         class_: 'slidelist',
-        children: pages.map((page) => PageListItem(page, selectedPage)));
+        children: items.map((page) => PageItemListItem(page, selectedItem)));
   }
 }
