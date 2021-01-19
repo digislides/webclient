@@ -140,7 +140,7 @@ class StageItem implements Component {
           left: item.rx.left.map((w) => FixedDistance(w)),
           top: item.rx.top.map((w) => FixedDistance(w)),
           fontSize: item.font.rx.size.map((v) => FixedDistance(v)),
-          backgroundColor: item.rx.bgColor,
+          backgroundColor: item.rx.color,
           color: item.font.rx.color)
         ..onClick.on(() => onSelect.emitOne(item));
     } else if (item is ImageItem) {
@@ -153,7 +153,7 @@ class StageItem implements Component {
           height: item.rx.height.map((w) => FixedDistance(w)),
           left: item.rx.left.map((w) => FixedDistance(w)),
           top: item.rx.top.map((w) => FixedDistance(w)),
-          backgroundColor: item.rx.bgColor)
+          backgroundColor: item.rx.color)
         ..classes.bindOneByIndexStream(
             ['fit-normal', 'fit-contains', 'fit-cover', 'fit-tile'],
             item.rx.fit.map((f) => f.id),
@@ -168,7 +168,7 @@ class StageItem implements Component {
           height: item.rx.height.map((w) => FixedDistance(w)),
           left: item.rx.left.map((w) => FixedDistance(w)),
           top: item.rx.top.map((w) => FixedDistance(w)),
-          backgroundColor: item.rx.bgColor)
+          backgroundColor: item.rx.color)
         ..classes.bindOneByIndexStream(
             ['fit-normal', 'fit-contains', 'fit-cover', 'fit-tile'],
             item.rx.fit.map((f) => f.id),

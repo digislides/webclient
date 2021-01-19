@@ -22,7 +22,7 @@ class ImageItemProperties implements Component {
       PositionProperty(item),
       SizeProperty(item),
       FitProperty(item.rx.fit),
-      ColorProperty(FASolid.chess_board, item.rx.bgColor),
+      ColorProperty(FASolid.chess_board, item.rx.color),
     ]);
   }
 }

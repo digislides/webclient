@@ -115,25 +115,25 @@ class Page implements Sizable {
     // TODO transitionDuration
     items.assignAll(((map['items'] ?? <Map>[]) as List)
         .map((m) {
-      if (m['type'] is int) {
-        return createItem(m['type'], m);
-      }
-      return null;
-    })
+          if (m['type'] is int) {
+            return createItem(m['type'], m);
+          }
+          return null;
+        })
         .where((v) => v is PageItem)
         .toList()
         .cast<PageItem>());
   }
 
   Map get toMap => {
-    'id': id,
-    'name': name,
-    'color': color,
-    'image': image,
-    'fit': fit.id,
-    'duration': duration,
-    // TODO transition
-    // TODO transitionDuration
-    'items': items.map((i) => i.toMap).toList(),
-  };
+        'id': id,
+        'name': name,
+        'color': color,
+        'image': image,
+        'fit': fit.id,
+        'duration': duration,
+        // TODO transition
+        // TODO transitionDuration
+        'items': items.map((i) => i.toMap).toList(),
+      };
 }

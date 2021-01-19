@@ -21,7 +21,7 @@ class TextItemProperties implements Component {
       TextProperty(item),
       PositionProperty(item),
       SizeProperty(item),
-      ColorProperty(FASolid.chess_board, item.rx.bgColor),
+      ColorProperty(FASolid.chess_board, item.rx.color),
       ColorProperty(FASolid.font, item.font.rx.color),
       HBox(
           class_: 'ech-field',

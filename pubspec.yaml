@@ -5,7 +5,7 @@ description: Web client for DigiSlides
 #author: Issac <email@example.com>
 
 environment:
-  sdk: '>=2.0.0-dev.65.0 <3.0.0'
+  sdk: '>=2.0.0 <3.0.0'
 
 dependencies:
   nuts:

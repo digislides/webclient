@@ -69,15 +69,15 @@ class FontProperties {
   FontProperties clone() => new FontProperties()..fromMap(toMap);
 
   Map get toMap => {
-    'size': size,
-    'align': align.index,
-    'family': family,
-    'color': color,
-    'bold': bold,
-    'italic': italic,
-    'underline': underline,
-    // 'lineThrough': lineThrough,
-  };
+        'size': size,
+        'align': align.index,
+        'family': family,
+        'color': color,
+        'bold': bold,
+        'italic': italic,
+        'underline': underline,
+        // 'lineThrough': lineThrough,
+      };
 
   void fromMap(Map map) {
     size = map['size'] ?? 16;
@@ -114,14 +114,14 @@ class TextItem extends Object
 
   TextItem(
       {this.id,
-        String name: 'Text',
-        int width: 0,
-        int height: 0,
-        int left: 0,
-        int top: 0,
-        String bgColor: 'transparent',
-        String text: 'Text',
-        FontProperties font})
+      String name: 'Text',
+      int width: 0,
+      int height: 0,
+      int left: 0,
+      int top: 0,
+      String bgColor: 'transparent',
+      String text: 'Text',
+      FontProperties font})
       : font = font ?? FontProperties() {
     id ??= new ObjectId().toHexString();
     this.name = name;
@@ -151,16 +151,16 @@ class TextItem extends Object
 
   @override
   Map get toMap => {
-    'id': id,
-    'type': type.index,
-    'name': name,
-    'width': width,
-    'height': height,
-    'left': left,
-    'top': top,
-    'text': text,
-    // TODO 'font': font.toMap,
-  };
+        'id': id,
+        'type': type.index,
+        'name': name,
+        'width': width,
+        'height': height,
+        'left': left,
+        'top': top,
+        'text': text,
+        // TODO 'font': font.toMap,
+      };
 
   @override
   void fromMap(Map map) {

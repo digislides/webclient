@@ -23,14 +23,14 @@ class ImageItem extends Object with PageItemMixin implements PageItem {
 
   ImageItem(
       {this.id,
-        String name: 'Image',
-        int width: 0,
-        int height: 0,
-        int left: 0,
-        int top: 0,
-        String bgColor: 'transparent',
-        String url,
-        Fit fit: Fit.cover}) {
+      String name: 'Image',
+      int width: 0,
+      int height: 0,
+      int left: 0,
+      int top: 0,
+      String bgColor: 'transparent',
+      String url,
+      Fit fit: Fit.cover}) {
     id ??= new ObjectId().toHexString();
     this.name = name;
     this.width = width;
@@ -58,16 +58,16 @@ class ImageItem extends Object with PageItemMixin implements PageItem {
 
   @override
   Map get toMap => {
-    'id': id,
-    'type': type.index,
-    'name': name,
-    'width': width,
-    'height': height,
-    'left': left,
-    'top': top,
-    'url': url,
-    'fit': fit.id,
-  };
+        'id': id,
+        'type': type.index,
+        'name': name,
+        'width': width,
+        'height': height,
+        'left': left,
+        'top': top,
+        'url': url,
+        'fit': fit.id,
+      };
 
   @override
   void fromMap(Map map) {

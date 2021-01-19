@@ -67,7 +67,7 @@ class RightSidebar implements Component {
             onClick: () => print('Duplicate')),
       ]),
       VariableView<bool>(false, _changes.stream, (bool b) {
-        return Box(class_: 'rsidebar-content', child: b? content2: content1);
+        return Box(class_: 'rsidebar-content', child: b ? content2 : content1);
       }),
     ]);
   }
